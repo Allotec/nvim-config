@@ -6,7 +6,6 @@ return {
   { "max397574/better-escape.nvim", enabled = false },
 
   vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true }),
-
   -- == Examples of Adding Plugins ==
 
   "andweeb/presence.nvim",
