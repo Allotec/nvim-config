@@ -14,7 +14,7 @@ return {
 
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.toml" },
-  { import = "astrocommunity.pack.yaml" },
+  -- { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.cmake" },
 
   -- { import = "astrocommunity.lsp.nvim-lsp-endhints" },
@@ -23,4 +23,5 @@ return {
   { import = "astrocommunity.utility.telescope-fzy-native-nvim" },
   { import = "astrocommunity.markdown-and-latex.peek-nvim" },
   { import = "astrocommunity.recipes.picker-lsp-mappings" },
+  { import = "astrocommunity.completion.copilot-cmp" },
 }
