@@ -15,4 +15,5 @@ return {
   { import = "astrocommunity.markdown-and-latex.peek-nvim" },
   { import = "astrocommunity.recipes.picker-lsp-mappings" },
   { import = "astrocommunity.completion.copilot-cmp" },
+  -- { import = "astrocommunity.project.projectmgr-nvim" },
 }

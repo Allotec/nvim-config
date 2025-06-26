@@ -5,6 +5,23 @@
 ---@type LazySpec
 return {
   {
+    "Allotec/projectmgr.nvim",
+    lazy = false,
+    dependencies = {
+      {
+        "AstroNvim/astrocore",
+        opts = {
+          mappings = {
+            n = {
+              ["<Leader>P"] = { "<Cmd>ProjectMgr<CR>", desc = "Open ProjectMgr panel" },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
       { "zbirenbaum/copilot.lua" }, -- or zbirenbaum/copilot.lua
