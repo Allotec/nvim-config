@@ -1,6 +1,37 @@
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
--- Here are some examples:
+--- Close the first window displaying a buffer with a given name
+--- @param name string: The buffer (tab) name to close
+function CloseWindowByBufferName(name)
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+    if bufname == name then
+      vim.api.nvim_set_current_win(win)
+      vim.cmd "close"
+      return
+    end
+  end
+  -- vim.notify("No window with buffer name: " .. name, vim.log.levels.WARN)
+end
+
+--- Open a buffer by (file) name in a horizontal split below the current window
+function OpenBufferBelowByName(name)
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":t")
+    if bufname == name then
+      -- Check if buffer is already visible in any window
+      for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if vim.api.nvim_win_get_buf(win) == bufnr then
+          return -- Already open, do nothing
+        end
+      end
+      local cur_win = vim.api.nvim_get_current_win()
+      vim.cmd "split"
+      vim.api.nvim_win_set_buf(0, bufnr)
+      vim.api.nvim_set_current_win(cur_win)
+      return
+    end
+  end
+end
 
 ---@type LazySpec
 return {
@@ -23,24 +54,45 @@ return {
 
   {
     "ej-shafran/compile-mode.nvim",
-    version = "^5.0.0",
     dependencies = {
       "nvim-lua/plenary.nvim",
       -- if you want to enable coloring of ANSI escape codes in compilation output, add:
-      -- { "m00qek/baleia.nvim", tag = "v1.3.0" },
+      { "m00qek/baleia.nvim" },
     },
     config = function()
       ---@type CompileModeOpts
       vim.g.compile_mode = {
         -- to add ANSI escape code support, add:
-        -- baleia_setup = true,
+        baleia_setup = true,
+        environment = {
+          CLICOLOR_FORCE = "yes", -- to enable colored output in cargo commands
+          TERM = "xterm-256color", -- to set the terminal type
+          CARGO_TERM_COLOR = "always", -- to enable colored output in cargo commands
+        },
+        default_command = "",
+        ask_about_save = false,
 
         -- to make `:Compile` replace special characters (e.g. `%`) in
         -- the command (and behave more like `:!`), add:
         -- bang_expansion = true,
       }
+
       vim.keymap.set("n", "<leader>A", ":silent Compile<CR>", { desc = "Run Compile command silently" })
       vim.keymap.set("n", "<leader>C", ":silent Recompile<CR>", { desc = "Run Compile command silently" })
+
+      vim.keymap.set(
+        "n",
+        "<C-c>",
+        function() CloseWindowByBufferName "*compilation*" end,
+        { desc = "Close window by buffer name" }
+      )
+
+      vim.keymap.set(
+        "n",
+        "<C-x>",
+        function() OpenBufferBelowByName "*compilation*" end,
+        { desc = "Open window by buffer name" }
+      )
     end,
   },
 

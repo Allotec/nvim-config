@@ -4,6 +4,7 @@ return {
   { import = "astrocommunity.pack.cpp" },
   { import = "astrocommunity.pack.python" },
   { import = "astrocommunity.pack.bash" },
+  { import = "astrocommunity.pack.html-css" },
 
   { import = "astrocommunity.pack.rust" },
   { import = "astrocommunity.pack.toml" },
@@ -15,5 +16,5 @@ return {
   { import = "astrocommunity.markdown-and-latex.peek-nvim" },
   { import = "astrocommunity.recipes.picker-lsp-mappings" },
   { import = "astrocommunity.completion.copilot-cmp" },
-  -- { import = "astrocommunity.project.projectmgr-nvim" },
+  { import = "astrocommunity.git.diffview-nvim" },
 }
