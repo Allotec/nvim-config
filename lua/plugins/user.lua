@@ -38,6 +38,11 @@ return {
   {
     "Allotec/projectmgr.nvim",
     lazy = false,
+    opts = {
+      session = {
+        enabled = false,
+      },
+    },
     dependencies = {
       {
         "AstroNvim/astrocore",
