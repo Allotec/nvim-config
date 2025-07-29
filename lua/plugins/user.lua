@@ -33,43 +33,16 @@ function OpenBufferBelowByName(name)
   end
 end
 
-function ClearTerm()
-  vim.opt_local.scrollback = 1
-
-  vim.api.nvim_command "startinsert"
-  vim.api.nvim_feedkeys("clear", "t", false)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cr>", true, false, true), "t", true)
-
-  vim.opt_local.scrollback = 10000
-end
-
-function ResetTerm()
-  vim.opt_local.scrollback = 1
-
-  vim.api.nvim_command "startinsert"
-  vim.api.nvim_feedkeys("reset", "t", false)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<cr>", true, false, true), "t", true)
-
-  vim.opt_local.scrollback = 10000
-end
-
-function CloseTerm()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    if vim.bo[buf].buftype == "terminal" then vim.api.nvim_win_close(win, true) end
-  end
-end
-
-vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
-vim.keymap.set("t", "<C-n>", ClearTerm, { noremap = true, silent = true })
-vim.keymap.set("t", "<C-b>", CloseTerm, { noremap = true, silent = true })
-vim.keymap.set("n", "<C-b>", CloseTerm, { noremap = true, silent = true })
-
 ---@type LazySpec
 return {
   {
     "Allotec/projectmgr.nvim",
     lazy = false,
+    opts = {
+      session = {
+        enabled = false,
+      },
+    },
     dependencies = {
       {
         "AstroNvim/astrocore",
@@ -85,8 +58,7 @@ return {
   },
 
   {
-    "Allotec/compile-mode.nvim",
-    branch = "dev",
+    "ej-shafran/compile-mode.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       -- if you want to enable coloring of ANSI escape codes in compilation output, add:
@@ -111,18 +83,18 @@ return {
       }
 
       vim.keymap.set("n", "<leader>A", ":silent Compile<CR>", { desc = "Run Compile command silently" })
-      vim.keymap.set("n", "<C-c>", ":silent Recompile<CR>", { desc = "Run Compile command silently" })
+      vim.keymap.set("n", "<leader>C", ":silent Recompile<CR>", { desc = "Run Compile command silently" })
 
       vim.keymap.set(
         "n",
-        "<C-x>",
+        "<C-c>",
         function() CloseWindowByBufferName "*compilation*" end,
         { desc = "Close window by buffer name" }
       )
 
       vim.keymap.set(
         "n",
-        "<leader>C",
+        "<C-x>",
         function() OpenBufferBelowByName "*compilation*" end,
         { desc = "Open window by buffer name" }
       )
