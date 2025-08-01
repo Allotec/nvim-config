@@ -13,10 +13,10 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +0 ~/.config/nvim/README.md
+badd +1 ~/.config/nvim/lua/plugins/user.lua
 argglobal
 %argdel
-edit ~/.config/nvim/README.md
+edit ~/.config/nvim/lua/plugins/user.lua
 argglobal
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.require'astroui.folding'.foldexpr()
@@ -26,12 +26,12 @@ setlocal foldlevel=99
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldenable
-let s:l = 19 - ((18 * winheight(0) + 25) / 51)
+let s:l = 1 - ((0 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 0
+keepjumps 1
+normal! 09|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
